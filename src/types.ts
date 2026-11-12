@@ -65,3 +65,31 @@ export type DebouncedFn = {
   (query: string): void;
   cancel(): void;
 };
+
+// to show in UI
+
+export interface CountryCurrency {
+  code: string;
+  name: string;
+  symbol: string;
+}
+
+export interface Country {
+  // alpha3Code
+  code: string;
+
+  // card + details
+  name: string;
+  flagUrl: string;
+  capital: string | null;
+  region: string;
+  population: number;
+
+  // details only
+  description: string;
+  area: number | null;
+  borderCodes: string[];
+  languages: string[];
+  currencies: CountryCurrency[];
+  borderNames: string[];
+}
