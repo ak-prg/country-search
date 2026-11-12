@@ -59,13 +59,6 @@ export interface ApiCountryName {
 
 export type ApiCountryNamesResponse = ApiCountryName[];
 
-export type SearchFn = (query: string) => void;
-
-export type DebouncedFn = {
-  (query: string): void;
-  cancel(): void;
-};
-
 // to show in UI
 
 export interface CountryCurrency {
@@ -93,3 +86,23 @@ export interface Country {
   currencies: CountryCurrency[];
   borderNames: string[];
 }
+
+// cache
+
+export type Entry = {
+  promise: Promise<ApiCountry[]>;
+  controller: AbortController;
+  subscribers: number;
+};
+
+export type SearchFn = (query: string) => void;
+
+export type DebouncedFn = {
+  (query: string): void;
+  cancel(): void;
+};
+
+export type SearchResult = {
+  countries: ApiCountry[] | null;
+  errorMessage: string;
+};
