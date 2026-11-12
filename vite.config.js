@@ -7,6 +7,7 @@ const SRC = resolve(__dirname, 'src');
 
 export default defineConfig({
   root: SRC,
+  cacheDir: resolve(__dirname, 'node_modules/.vite'),
   publicDir: resolve(__dirname, 'public'),
   server: { port: 5173, open: true },
   base: './',
