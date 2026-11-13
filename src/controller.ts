@@ -2,19 +2,41 @@ import { debounce } from './core/debounce';
 import { fetchWrapper, toAbort } from './core/search-utils';
 import { state, initState, setState, updateHistory } from './model';
 import { DEBOUNCE_TIME } from './constants';
-import type { StateCallbacks } from './types';
+import type {
+  HeaderCallbacks,
+  HistoryCallbacks,
+  ResultsCallbacks,
+  StateCallbacks,
+  ViewCallbacks,
+} from './types';
 import { mapCountryResponse } from './core/mapCountryResponse';
+import {
+  createViews,
+  openInitDetailsModal,
+  setSearchInput,
+  updateViews,
+} from './view';
 
 let stateCb: StateCallbacks;
+let viewCb: ViewCallbacks;
+let headerCb: HeaderCallbacks;
+let historyCb: HistoryCallbacks;
+let resultsCb: ResultsCallbacks;
 
 export function main(): void {
   stateCb = { onChangeDetected };
+  headerCb = { onChange };
+  historyCb = { onHistoryClick };
+  resultsCb = { onRetry: () => onRetry(state.currentQuery), onOpenDetails };
+  viewCb = { headerCb, historyCb, resultsCb };
+
   initState(stateCb);
+  createViews(viewCb);
+  updateViews(state);
 }
 
-// called by the model on every state change
 function onChangeDetected(): void {
-  // TO DO
+  updateViews(state);
 }
 
 export async function search(query: string): Promise<void> {
@@ -30,7 +52,6 @@ export async function search(query: string): Promise<void> {
   } else if (errorMessage) {
     setState({ errorMessage, countries: [], status: 'error' });
   }
-  // neither: the call was cancelled, do nothing
 }
 
 const debounceHandler = debounce(search, DEBOUNCE_TIME);
@@ -52,12 +73,11 @@ export function handleEmptyInput(): void {
 }
 
 export function onHistoryClick(query: string): void {
-  // setSearchInput in UI
+  setSearchInput(query);
   onRetry(query);
 }
 
 export function onOpenDetails(code: string): void {
   const country = state.countries.find((c) => c.code === code);
-  void country;
-  // open modal;
+  if (country) openInitDetailsModal(country);
 }
