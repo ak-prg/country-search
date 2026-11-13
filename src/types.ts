@@ -106,3 +106,19 @@ export type SearchResult = {
   countries: ApiCountry[] | null;
   errorMessage: string;
 };
+
+// state
+
+export type Status = 'idle' | 'loading' | 'results' | 'empty' | 'error';
+
+export type State = Readonly<{
+  searchHistory: readonly string[];
+  currentQuery: string;
+  errorMessage: string;
+  countries: readonly Country[];
+  status: Status;
+}>;
+
+export interface StateCallbacks {
+  onChangeDetected: () => void;
+}
