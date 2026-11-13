@@ -59,6 +59,9 @@ export interface ApiCountryName {
 
 export type ApiCountryNamesResponse = ApiCountryName[];
 
+// alpha3Code and country name, "AUT" => "Austria"
+export type CountryNameMap = ReadonlyMap<string, string>;
+
 // to show in UI
 
 export interface CountryCurrency {
@@ -121,4 +124,25 @@ export type State = Readonly<{
 
 export interface StateCallbacks {
   onChangeDetected: () => void;
+}
+
+// views
+
+export interface HeaderCallbacks {
+  onChange: (input: string) => void;
+}
+
+export interface HistoryCallbacks {
+  onHistoryClick: (query: string) => void;
+}
+
+export interface ResultsCallbacks {
+  onRetry: () => void;
+  onOpenDetails: (code: string) => void;
+}
+
+export interface ViewCallbacks {
+  headerCb: HeaderCallbacks;
+  historyCb: HistoryCallbacks;
+  resultsCb: ResultsCallbacks;
 }
