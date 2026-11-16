@@ -146,3 +146,17 @@ export interface ViewCallbacks {
   historyCb: HistoryCallbacks;
   resultsCb: ResultsCallbacks;
 }
+
+// UI helpers
+
+export interface ElementOptions {
+  className?: string | undefined;
+  text?: string | number | undefined;
+  attrs?: Record<string, string> | undefined;
+  parent?: HTMLElement | undefined;
+}
+
+export interface DialogParts {
+  dialog: HTMLDialogElement;
+  content: HTMLDivElement;
+}
